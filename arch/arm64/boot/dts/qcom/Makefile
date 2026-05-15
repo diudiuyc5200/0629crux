@@ -15,8 +15,7 @@ ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
 		cepheus-sm8150-overlay.dtbo \
 		crux-sm8150-overlay.dtbo \
 		nabu-sm8150-overlay.dtbo \
-		raphael-sm8150-overlay.dtbo \
-		vayu-sm8150-overlay.dtbo
+		raphael-sm8150-overlay.dtbo
 
 andromeda-sm8150-overlay.dtbo-base := sm8150-xiaomi.dtb sm8150-v2-xiaomi.dtb sm8150p-xiaomi.dtb sm8150p-v2-xiaomi.dtb
 andromeda-sm8150-p1-overlay.dtbo-base := sm8150-xiaomi.dtb sm8150-v2-xiaomi.dtb sm8150p-xiaomi.dtb sm8150p-v2-xiaomi.dtb
