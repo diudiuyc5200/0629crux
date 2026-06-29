@@ -1,19 +1,26 @@
-# SPDX-License-Identifier: GPL-2.0
-ifeq ($(CONFIG_MACH_XIAOMI),y)
-
 ifeq ($(CONFIG_MACH_XIAOMI_SM8150),y)
 ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
-	dtbo-$(CONFIG_ARCH_SM8150) += \
-		crux-sm8150-overlay.dtbo \
+ifeq ($(CONFIG_MACH_XIAOMI_CEPHEUS),y)
+dtbo-$(CONFIG_ARCH_SM8150) += \
+		cepheus-sm8150-overlay.dtbo
+cepheus-sm8150-overlay.dtbo-base := sm8150-v2.dtb
+endif
+
+ifeq ($(CONFIG_MACH_XIAOMI_CRUX),y)
+dtbo-$(CONFIG_MACH_XIAOMI_CRUX) += \
+		crux-sm8150-overlay.dtbo
+
+crux-sm8150-overlay.dtbo-base := sm8150.dtb sm8150-v2.dtb sm8150p.dtb sm8150p-v2.dtb
+endif
+
+ifeq ($(CONFIG_MACH_XIAOMI_RAPHAEL),y)
+dtbo-$(CONFIG_ARCH_SM8150) += \
 		raphael-sm8150-overlay.dtbo
-
-crux-sm8150-overlay.dtbo-base := sm8150-xiaomi.dtb sm8150-v2-xiaomi.dtb sm8150p-xiaomi.dtb sm8150p-v2-xiaomi.dtb
-raphael-sm8150-overlay.dtbo-base := sm8150-xiaomi.dtb sm8150-v2-xiaomi.dtb sm8150p-xiaomi.dtb sm8150p-v2-xiaomi.dtb
-endif # CONFIG_BUILD_ARM64_DT_OVERLAY
-endif # CONFIG_MACH_XIAOMI_SM8150
-
-else # CONFIG_MACH_XIAOMI
-
+raphael-sm8150-overlay.dtbo-base := sm8150-v2.dtb sm8150p-v2.dtb
+endif
+endif
+else
+# SPDX-License-Identifier: GPL-2.0
 ifeq ($(TARGET_BOARD_TYPE),auto)
 ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
 	dtbo-$(CONFIG_ARCH_SM8150) += \
@@ -603,8 +610,6 @@ endif
 
 endif
 
-endif # CONFIG_MACH_XIAOMI
-
 ifeq ($(CONFIG_ARM64),y)
 always		:= $(dtb-y)
 subdir-y	:= $(dts-dirs)
@@ -623,6 +628,7 @@ $(obj)/%.dtbo:$(src)/../../../../arm64/boot/dts/qcom/%.dts FORCE
 dtbs: $(addprefix $(obj)/,$(dtb-y)) $(addprefix $(obj)/,$(dtbo-y))
 else
 dtbs: $(addprefix $(obj)/../,$(dtb-y))
+endif
 endif
 endif
 clean-files	:= *.dtb *.dtbo
